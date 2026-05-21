@@ -1,0 +1,44 @@
+# Restaurant QR Code Delivery Robot Simulation
+
+## Project Overview
+
+This project builds a restaurant-style robot delivery simulation in Gazebo. The environment includes a restaurant layout, four tables, QR code stations, wall decorations, bright lights, and an Ackermann robot car with a food delivery tray.
+
+The main goal is to simulate a simple restaurant delivery task. The robot moves along the center aisle, stops near a selected QR code station, waits for 5 seconds to simulate food delivery or order confirmation, and then returns toward the starting point.
+
+At the current stage, the robot uses a timing-based control method. The user enters a target QR code ID, and the robot moves forward for a predefined amount of time corresponding to that QR code location.
+
+---
+
+## Features
+
+- Restaurant-style Gazebo world
+- Four symmetric tables
+- Clear center aisle for robot movement
+- QR code boards placed near the aisle
+- Bright restaurant lighting
+- Restaurant wall decorations
+- Ackermann car model
+- Food delivery tray added to the robot
+- Simple forward and backward robot motion
+- Timing-based QR station delivery behavior
+
+---
+
+## File Structure
+
+After adding the provided files, the `gazebo_demo` folder should look like this:
+
+```bash
+gazebo_demo/
+├── models/
+│   ├── ackermann_car/
+│   ├── restaurant_qr_marker_01/
+│   ├── restaurant_qr_marker_02/
+│   ├── restaurant_qr_marker_03/
+│   ├── restaurant_qr_marker_04/
+│   ├── restaurant_qr_marker_05/
+│   └── restaurant_qr_marker_06/
+├── worlds/
+│   └── restaurant_qr_activity_v3.world
+└── qr_delivery_simple.py
