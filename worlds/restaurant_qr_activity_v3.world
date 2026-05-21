@@ -1,0 +1,169 @@
+<?xml version="1.0" ?>
+<sdf version="1.10">
+  <world name="restaurant_qr_activity_v3">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Bright lighting: one sun plus two ceiling point lights. -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>1.0 1.0 0.95 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <direction>-0.3 0.2 -1</direction>
+    </light>
+    <light type="point" name="ceiling_light_front">
+      <pose>0 -1.4 2.7 0 0 0</pose>
+      <diffuse>1 1 0.92 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <attenuation>
+        <range>8</range>
+        <constant>0.4</constant>
+        <linear>0.03</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+    <light type="point" name="ceiling_light_back">
+      <pose>0 1.4 2.7 0 0 0</pose>
+      <diffuse>1 1 0.92 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <attenuation>
+        <range>8</range>
+        <constant>0.4</constant>
+        <linear>0.03</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+
+    <!-- Floor -->
+    <model name="restaurant_floor">
+      <static>true</static>
+      <pose>0 0 -0.025 0 0 0</pose>
+      <link name="floor_link">
+        <collision name="collision"><geometry><box><size>8 6 0.05</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>8 6 0.05</size></box></geometry>
+          <material><ambient>0.73 0.65 0.52 1</ambient><diffuse>0.73 0.65 0.52 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Clear center driving aisle: car should only move forward/backward along the Y direction. -->
+    <model name="center_driving_aisle">
+      <static>true</static>
+      <pose>0 0 0.006 0 0 0</pose>
+      <link name="aisle_link">
+        <visual name="aisle_visual">
+          <geometry><box><size>1.25 5.4 0.01</size></box></geometry>
+          <material><ambient>0.86 0.80 0.64 1</ambient><diffuse>0.86 0.80 0.64 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="aisle_center_line">
+      <static>true</static>
+      <pose>0 0 0.015 0 0 0</pose>
+      <link name="line_link">
+        <visual name="line_visual">
+          <geometry><box><size>0.05 5.2 0.01</size></box></geometry>
+          <material><ambient>0.98 0.98 0.98 1</ambient><diffuse>0.98 0.98 0.98 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Room walls with a front entrance opening centered on the aisle. -->
+    <model name="back_wall"><static>true</static><pose>0 3 1 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>8 0.12 2</size></box></geometry></collision><visual name="v"><geometry><box><size>8 0.12 2</size></box></geometry><material><ambient>0.93 0.90 0.80 1</ambient><diffuse>0.93 0.90 0.80 1</diffuse></material></visual></link></model>
+    <model name="left_wall"><static>true</static><pose>-4 0 1 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>0.12 6 2</size></box></geometry></collision><visual name="v"><geometry><box><size>0.12 6 2</size></box></geometry><material><ambient>0.93 0.90 0.80 1</ambient><diffuse>0.93 0.90 0.80 1</diffuse></material></visual></link></model>
+    <model name="right_wall"><static>true</static><pose>4 0 1 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>0.12 6 2</size></box></geometry></collision><visual name="v"><geometry><box><size>0.12 6 2</size></box></geometry><material><ambient>0.93 0.90 0.80 1</ambient><diffuse>0.93 0.90 0.80 1</diffuse></material></visual></link></model>
+    <model name="front_wall_left"><static>true</static><pose>-2.65 -3 1 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>2.7 0.12 2</size></box></geometry></collision><visual name="v"><geometry><box><size>2.7 0.12 2</size></box></geometry><material><ambient>0.93 0.90 0.80 1</ambient><diffuse>0.93 0.90 0.80 1</diffuse></material></visual></link></model>
+    <model name="front_wall_right"><static>true</static><pose>2.65 -3 1 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>2.7 0.12 2</size></box></geometry></collision><visual name="v"><geometry><box><size>2.7 0.12 2</size></box></geometry><material><ambient>0.93 0.90 0.80 1</ambient><diffuse>0.93 0.90 0.80 1</diffuse></material></visual></link></model>
+
+    <!-- Counter / host stand away from the center driving aisle. -->
+    <model name="service_counter"><static>true</static><pose>-2.75 2.35 0.45 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>1.8 0.55 0.9</size></box></geometry></collision><visual name="v"><geometry><box><size>1.8 0.55 0.9</size></box></geometry><material><ambient>0.35 0.20 0.12 1</ambient><diffuse>0.35 0.20 0.12 1</diffuse></material></visual></link></model>
+    <model name="menu_board"><static>true</static><pose>2.55 2.92 1.25 0 0 0</pose><link name="link"><collision name="c"><geometry><box><size>1.4 0.04 0.7</size></box></geometry></collision><visual name="v"><geometry><box><size>1.4 0.04 0.7</size></box></geometry><material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material></visual></link></model>
+
+    <!-- Four symmetric tables. They stay outside the center aisle. -->
+    <model name="table_left_front"><static>true</static><pose>-2.35 -1.25 0.38 0 0 0</pose><link name="link"><collision name="c"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry></collision><visual name="v"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry><material><ambient>0.55 0.32 0.18 1</ambient><diffuse>0.55 0.32 0.18 1</diffuse></material></visual></link></model>
+    <model name="table_right_front"><static>true</static><pose>2.35 -1.25 0.38 0 0 0</pose><link name="link"><collision name="c"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry></collision><visual name="v"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry><material><ambient>0.55 0.32 0.18 1</ambient><diffuse>0.55 0.32 0.18 1</diffuse></material></visual></link></model>
+    <model name="table_left_back"><static>true</static><pose>-2.35 1.25 0.38 0 0 0</pose><link name="link"><collision name="c"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry></collision><visual name="v"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry><material><ambient>0.55 0.32 0.18 1</ambient><diffuse>0.55 0.32 0.18 1</diffuse></material></visual></link></model>
+    <model name="table_right_back"><static>true</static><pose>2.35 1.25 0.38 0 0 0</pose><link name="link"><collision name="c"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry></collision><visual name="v"><geometry><cylinder><radius>0.45</radius><length>0.08</length></cylinder></geometry><material><ambient>0.55 0.32 0.18 1</ambient><diffuse>0.55 0.32 0.18 1</diffuse></material></visual></link></model>
+
+    <!-- Small chairs around the tables. No giant invisible collision box. -->
+    <model name="chair_set"><static>true</static>
+      <link name="chairs">
+        <visual name="lf_chair_inner"><pose>-1.55 -1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="lf_chair_outer"><pose>-3.15 -1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="rf_chair_inner"><pose>1.55 -1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="rf_chair_outer"><pose>3.15 -1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="lb_chair_inner"><pose>-1.55 1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="lb_chair_outer"><pose>-3.15 1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="rb_chair_inner"><pose>1.55 1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+        <visual name="rb_chair_outer"><pose>3.15 1.25 0.18 0 0 0</pose><geometry><box><size>0.32 0.36 0.28</size></box></geometry><material><ambient>0.18 0.18 0.18 1</ambient><diffuse>0.18 0.18 0.18 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <!-- QR whiteboards near the robot path, beside the four tables. -->
+    <include>
+      <name>qr_left_front_table</name>
+      <uri>model://restaurant_qr_marker_01</uri>
+      <pose>-0.92 -1.25 0.00 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>qr_right_front_table</name>
+      <uri>model://restaurant_qr_marker_02</uri>
+      <pose>0.92 -1.25 0.00 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>qr_left_back_table</name>
+      <uri>model://restaurant_qr_marker_03</uri>
+      <pose>-0.92 1.25 0.00 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>qr_right_back_table</name>
+      <uri>model://restaurant_qr_marker_04</uri>
+      <pose>0.92 1.25 0.00 0 0 1.5708</pose>
+    </include>
+
+
+
+    <!-- Restaurant decorations on the walls. Kept higher than the QR boards so they do not confuse the robot camera. -->
+    <include>
+      <name>wall_art_pizza_back</name>
+      <uri>model://restaurant_wall_art_pizza</uri>
+      <pose>-1.15 2.925 1.45 0 0 0</pose>
+    </include>
+    <include>
+      <name>wall_art_cafe_back</name>
+      <uri>model://restaurant_wall_art_cafe</uri>
+      <pose>1.15 2.925 1.45 0 0 0</pose>
+    </include>
+    <include>
+      <name>wall_art_bistro_left</name>
+      <uri>model://restaurant_wall_art_bistro</uri>
+      <pose>-3.925 0.00 1.45 0 0 -1.5708</pose>
+    </include>
+
+    <!-- Food delivery tray placed on top of the robot at the start.
+         This visually shows that the robot is a restaurant delivery robot. -->
+    <include>
+      <name>delivery_tray_on_robot_start</name>
+      <uri>model://restaurant_delivery_tray</uri>
+      <pose>0 -2.35 0.28 0 0 1.5708</pose>
+    </include>
+
+    <!-- Optional robot. The car starts in the center aisle; only forward/backward motion is needed. -->
+    <include>
+      <name>robot_car</name>
+      <uri>model://ackermann_car</uri>
+      <pose>0 -2.35 0.08 0 0 1.5708</pose>
+    </include>
+  </world>
+</sdf>

@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<sdf version="1.10">
+  <model name="restaurant_qr_marker_05">
+    <static>true</static>
+    <link name="qr_whiteboard_link">
+      <!-- Model origin is on the floor. QR board center height is 0.42 m. -->
+      <visual name="white_backing">
+        <pose>0 0.006 0.42 0 0 0</pose>
+        <geometry><box><size>0.32 0.018 0.32</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+      <visual name="qr_panel_visual">
+        <pose>0 -0.006 0.42 0 0 0</pose>
+        <geometry><box><size>0.24 0.012 0.24</size></box></geometry>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <pbr><metal><albedo_map>materials/textures/qr_05.png</albedo_map><roughness>0.85</roughness><metalness>0.0</metalness></metal></pbr>
+        </material>
+      </visual>
+      <visual name="black_frame_top"><pose>0 0 0.59 0 0 0</pose><geometry><box><size>0.34 0.025 0.025</size></box></geometry><material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material></visual>
+      <visual name="black_frame_bottom"><pose>0 0 0.25 0 0 0</pose><geometry><box><size>0.34 0.025 0.025</size></box></geometry><material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material></visual>
+      <visual name="black_frame_left"><pose>-0.17 0 0.42 0 0 0</pose><geometry><box><size>0.025 0.025 0.34</size></box></geometry><material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material></visual>
+      <visual name="black_frame_right"><pose>0.17 0 0.42 0 0 0</pose><geometry><box><size>0.025 0.025 0.34</size></box></geometry><material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material></visual>
+      <visual name="stand_pole"><pose>0 0 0.14 0 0 0</pose><geometry><box><size>0.045 0.045 0.28</size></box></geometry><material><ambient>0.12 0.12 0.12 1</ambient><diffuse>0.12 0.12 0.12 1</diffuse></material></visual>
+      <visual name="stand_base"><pose>0 0 0.015 0 0 0</pose><geometry><box><size>0.22 0.16 0.03</size></box></geometry><material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material></visual>
+      <collision name="qr_board_collision"><pose>0 0 0.42 0 0 0</pose><geometry><box><size>0.34 0.03 0.34</size></box></geometry></collision>
+      <collision name="stand_collision"><pose>0 0 0.14 0 0 0</pose><geometry><box><size>0.05 0.05 0.28</size></box></geometry></collision>
+      <collision name="base_collision"><pose>0 0 0.015 0 0 0</pose><geometry><box><size>0.22 0.16 0.03</size></box></geometry></collision>
+    </link>
+  </model>
+</sdf>
